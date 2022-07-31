@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +19,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.anderson.rhsolutionAPI.dto.DtoDepartamentoPessoal;
 import br.com.anderson.rhsolutionAPI.form.FormDepartamento;
 import br.com.anderson.rhsolutionAPI.model.DepartamentoPessoal;
+import br.com.anderson.rhsolutionAPI.repository.DepartamentoPessoalRepository;
 import br.com.anderson.rhsolutionAPI.service.DepartamentoPessoalService;
 
 @RestController
@@ -31,13 +36,27 @@ public class ControllerDepartamentos {
 	@Autowired
 	private DepartamentoPessoalService departamentoservice;
 
+    @Autowired
+    private DepartamentoPessoalRepository departamentoPessoalRepository;
+	
 	
 	@GetMapping
-	public List<DtoDepartamentoPessoal> listar(){ 
+	public ResponseEntity<Page<DepartamentoPessoal>> lista(
+			@RequestParam int valorinicial,
+			@RequestParam int valorfinal){ 
 		
-		List<DtoDepartamentoPessoal> listarDepartamentos = departamentoservice.listarDepartamentos();
-		return listarDepartamentos;
+		Pageable paginacao = PageRequest.of(valorinicial, valorfinal);
+		Page<DepartamentoPessoal> lista = departamentoPessoalRepository.findAll(paginacao);
+		return ResponseEntity.ok().body(lista);
 	}
+	
+	@GetMapping("/lista")
+	public ResponseEntity<List<DepartamentoPessoal>> listar(){ 
+		List<DepartamentoPessoal> lista = departamentoPessoalRepository.findAll();
+		return ResponseEntity.ok().body(lista);
+	}
+	
+	//List<DtoDepartamentoPessoal> listarDepartamentos = departamentoservice.listarDepartamentos();
 	
 	@PostMapping
 	public ResponseEntity<DtoDepartamentoPessoal> cadastrar(

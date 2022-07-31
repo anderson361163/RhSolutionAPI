@@ -45,6 +45,11 @@ public class DepartamentoPessoalService {
         return departamentoPessoalRepository.findByNome(departamento);
     }
     
+    /*
+    public List<DepartamentoPessoal> findByNomeLista(String departamento) {
+        return departamentoPessoalRepository.findByNome(departamento);
+    }*/
+    
     public void excluirDepartamento(Long id) {
         departamentoPessoalRepository.deleteById(id);
     }
