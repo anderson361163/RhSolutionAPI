@@ -1,10 +1,13 @@
 package br.com.anderson.rhsolutionAPI.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.anderson.rhsolutionAPI.form.FormFuncionario;
+import br.com.anderson.rhsolutionAPI.model.DepartamentoPessoal;
 import br.com.anderson.rhsolutionAPI.model.Funcionario;
 import br.com.anderson.rhsolutionAPI.repository.FuncionarioRepository;
 
@@ -21,8 +24,8 @@ public class FuncionarioService {
         return funcionarioRepository.findAll();
     }
 
-    public Funcionario buscarFuncionarioById(Long id) {
-        return funcionarioRepository.findById(id).get();
+    public Optional<Funcionario> buscarFuncionarioById(Long id) {
+        return funcionarioRepository.findById(id);
     }
 
     public List<Funcionario> listaFuncionariosDoDepartamentoById(Long id) {
@@ -30,7 +33,7 @@ public class FuncionarioService {
     }
     
     /*
-    public Funcionario salvarFuncionario(FuncionarioDTO funcionarioDTO) {
+    public Funcionario salvarFuncionario(DtoFuncionario funcionarioDTO) {
         DepartamentoPessoal departamentoPessoal = departamentoPessoalService.buscarDepartamentoById(funcionarioDTO.getDepartamentoPessoal());
 
         Funcionario funcionario = FuncionarioMapper.toModel(funcionarioDTO);
@@ -39,21 +42,42 @@ public class FuncionarioService {
         return funcionarioRepository.save(funcionario);
     }*/
 
-    /*
-    public Funcionario atualizarFuncionario(Long id, FuncionarioDTO funcionarioDTO) {
-        Funcionario funcionario = buscarFuncionarioById(id);
-        DepartamentoPessoal departamentoPessoal = departamentoPessoalService.buscarDepartamentoById(funcionarioDTO.getDepartamentoPessoal());
-
-        funcionario.setCpf(funcionarioDTO.getCpf());
-        funcionario.setNome(funcionarioDTO.getNome());
-        funcionario.setSalario(funcionarioDTO.getSalario());
-        funcionario.setDataNascimento(funcionarioDTO.getDataNascimento());
-        funcionario.setDepartamentoPessoal(departamentoPessoal);
-
-        //BeanUtils.copyProperties(funcionarioDTO, funcionario, "id", "dataCadastro");
-
-        return funcionarioRepository.save(funcionario);
-    }*/
+  public Funcionario salvarFuncionario(Long id, Funcionario formfuncionario) {
+    	
+        Optional<Funcionario> funcionarioLocalizado = buscarFuncionarioById(id);
+        	if(funcionarioLocalizado.isPresent()) {
+        		Funcionario funcionario = funcionarioLocalizado.get();
+        		DepartamentoPessoal departamentoPessoal = departamentoPessoalService.buscarDepartamentoByNome(formfuncionario.getDepartamentoPessoal().getNome());
+        		
+		        funcionario.setCpf(formfuncionario.getCpf());
+		        funcionario.setNome(formfuncionario.getNome());
+		        funcionario.setSalario(formfuncionario.getSalario());
+		        funcionario.setDataNascimento(formfuncionario.getDataNascimento());
+		        funcionario.setDepartamentoPessoal(departamentoPessoal);
+		        return funcionarioRepository.save(funcionario);
+        	}
+		        
+        	return new Funcionario();
+    }
+    
+    
+    public Funcionario salvarFuncionario(Long id, FormFuncionario formfuncionario) {
+    	
+        Optional<Funcionario> funcionarioLocalizado = buscarFuncionarioById(id);
+        	if(funcionarioLocalizado.isPresent()) {
+        		Funcionario funcionario = funcionarioLocalizado.get();
+        		DepartamentoPessoal departamentoPessoal = departamentoPessoalService.buscarDepartamentoByNome(formfuncionario.getNomeDepartamentoPessoal());
+        		
+		        funcionario.setCpf(formfuncionario.getCpf());
+		        funcionario.setNome(formfuncionario.getNome());
+		        funcionario.setSalario(formfuncionario.getSalario());
+		        funcionario.setDataNascimento(formfuncionario.getDataNascimento());
+		        funcionario.setDepartamentoPessoal(departamentoPessoal);
+		        return funcionarioRepository.save(funcionario);
+        	}
+		        
+        	return new Funcionario();
+    }
 
     public void excluirFuncionarioById(Long id) {
         funcionarioRepository.deleteById(id);

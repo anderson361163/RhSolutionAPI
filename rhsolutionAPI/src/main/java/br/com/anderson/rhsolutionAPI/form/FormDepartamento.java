@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import br.com.anderson.rhsolutionAPI.model.DepartamentoPessoal;
 
-public class DepartamentoForm {
+public class FormDepartamento {
 	
 	@NotEmpty
 	@NotNull
@@ -20,7 +20,7 @@ public class DepartamentoForm {
 		this.nome = nome;
 	}
 
-	public static DepartamentoPessoal converter(@Valid DepartamentoForm departamentoForm) {
+	public static DepartamentoPessoal converter(@Valid FormDepartamento departamentoForm) {
 		return new DepartamentoPessoal(departamentoForm);
 	}
 	

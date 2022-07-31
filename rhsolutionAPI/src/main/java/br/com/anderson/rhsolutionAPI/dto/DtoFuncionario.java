@@ -80,7 +80,4 @@ public class DtoFuncionario {
 	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
-
-	
-	
 }

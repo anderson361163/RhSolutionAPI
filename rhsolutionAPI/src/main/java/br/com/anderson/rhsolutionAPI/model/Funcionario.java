@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.anderson.rhsolutionAPI.form.FormDepartamento;
+import br.com.anderson.rhsolutionAPI.form.FormFuncionario;
+
 @Entity
 @Table(name = "funcionario")
 public class Funcionario {
@@ -42,6 +45,20 @@ public class Funcionario {
 
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+    
+    
+    public Funcionario() {
+    	
+    }
+    
+    public Funcionario(FormFuncionario form) {
+	   this.setCpf(form.getCpf());
+	   this.setNome(form.getNome());
+	   this.setSalario(form.getSalario());
+	   this.setDataNascimento(form.getDataNascimento());
+	   //this.setDepartamentoPessoal(departamentoPessoal);
+    }
+    
 
 	public Long getId() {
 		return id;

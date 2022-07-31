@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.anderson.rhsolutionAPI.dto.DtoDepartamentoPessoal;
-import br.com.anderson.rhsolutionAPI.form.DepartamentoForm;
+import br.com.anderson.rhsolutionAPI.form.FormDepartamento;
 import br.com.anderson.rhsolutionAPI.model.DepartamentoPessoal;
 import br.com.anderson.rhsolutionAPI.model.Funcionario;
 import br.com.anderson.rhsolutionAPI.repository.DepartamentoPessoalRepository;
@@ -53,7 +53,7 @@ public class DepartamentoPessoalService {
         return departamentoPessoalRepository.save(departamentoPessoal);
     }
     
-    public DepartamentoPessoal atualizarDepartamento(Long id, DepartamentoForm dto) {
+    public DepartamentoPessoal atualizarDepartamento(Long id, FormDepartamento dto) {
         Optional<DepartamentoPessoal> listaDepartamento = buscarDepartamentoById(id);
         try {
         	DepartamentoPessoal departamento = listaDepartamento.get();

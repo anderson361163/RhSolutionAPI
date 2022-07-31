@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.anderson.rhsolutionAPI.form.DepartamentoForm;
+import br.com.anderson.rhsolutionAPI.form.FormDepartamento;
 
 
 @Entity
@@ -24,7 +24,7 @@ public class DepartamentoPessoal {
     	
     }
     
-    public DepartamentoPessoal(DepartamentoForm form) {
+    public DepartamentoPessoal(FormDepartamento form) {
     	this.nome = form.getNome();
     }
     

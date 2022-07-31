@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.anderson.rhsolutionAPI.dto.DtoDepartamentoPessoal;
-import br.com.anderson.rhsolutionAPI.form.DepartamentoForm;
+import br.com.anderson.rhsolutionAPI.form.FormDepartamento;
 import br.com.anderson.rhsolutionAPI.model.DepartamentoPessoal;
 import br.com.anderson.rhsolutionAPI.service.DepartamentoPessoalService;
-import br.com.anderson.rhsolutionAPI.service.FuncionarioService;
 
 @RestController
 @RequestMapping("/departamento")
@@ -31,7 +30,7 @@ public class ControllerDepartamentos {
 
 	@Autowired
 	private DepartamentoPessoalService departamentoservice;
-	private FuncionarioService funcionario;
+
 	
 	@GetMapping
 	public List<DtoDepartamentoPessoal> listar(){ 
@@ -42,10 +41,10 @@ public class ControllerDepartamentos {
 	
 	@PostMapping
 	public ResponseEntity<DtoDepartamentoPessoal> cadastrar(
-			@RequestBody @Valid DepartamentoForm departamentoForm,
+			@RequestBody @Valid FormDepartamento departamentoForm,
 			UriComponentsBuilder uriBuilder
 			){
-		DepartamentoPessoal salvarDepartamento = departamentoservice.salvarDepartamento(DepartamentoForm.converter(departamentoForm));
+		DepartamentoPessoal salvarDepartamento = departamentoservice.salvarDepartamento(FormDepartamento.converter(departamentoForm));
 		URI uri = uriBuilder.path("/departamento/{id}").buildAndExpand(salvarDepartamento.getId()).toUri();
 		return ResponseEntity.created(uri).body(new DtoDepartamentoPessoal(salvarDepartamento));
 	}
@@ -63,7 +62,7 @@ public class ControllerDepartamentos {
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<DtoDepartamentoPessoal> atualizar(@PathVariable("id") Long id,
-											@RequestBody @Valid DepartamentoForm departamentoForm) {
+											@RequestBody @Valid FormDepartamento departamentoForm) {
 		Optional<DepartamentoPessoal> depo = departamentoservice.buscarDepartamentoById(id);
 		if(depo.isPresent()) {
 			DepartamentoPessoal dep = departamentoservice.atualizarDepartamento(id, departamentoForm);
