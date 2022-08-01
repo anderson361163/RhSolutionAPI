@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,15 +43,13 @@ public class ControllerDepartamentos {
 	
 	
 	@GetMapping
-	public ResponseEntity<Page<DepartamentoPessoal>> lista(
-			@RequestParam int valorinicial,
-			@RequestParam int valorfinal){ 
-		
-		Pageable paginacao = PageRequest.of(valorinicial, valorfinal);
-		Page<DepartamentoPessoal> lista = departamentoPessoalRepository.findAll(paginacao);
+	public ResponseEntity<Page<DepartamentoPessoal>> lista(Pageable ordenacao){ 
+		Page<DepartamentoPessoal> lista = departamentoPessoalRepository.findAll(ordenacao);
 		return ResponseEntity.ok().body(lista);
 	}
-	
+	/*
+	 * 
+	 */
 	@GetMapping("/lista")
 	public ResponseEntity<List<DepartamentoPessoal>> listar(){ 
 		List<DepartamentoPessoal> lista = departamentoPessoalRepository.findAll();
